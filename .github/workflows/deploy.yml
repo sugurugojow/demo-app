@@ -20,6 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pwd
           cd demp-app # Change to your Vue app directory
           npm install
 
