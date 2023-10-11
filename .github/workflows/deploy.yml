@@ -29,7 +29,7 @@ jobs:
         working-directory: ./demo-app
 
       - name: Copy files to EC2
-        uses: appleboy/scp-action@v0.3.0
+        uses: appleboy/scp-action
         with:
           host: ${{ secrets.EC2_HOST }} # Your EC2 instance's IP or DNS
           username: ${{ secrets.EC2_USERNAME }} # Your EC2 username
@@ -38,7 +38,7 @@ jobs:
           target: "/var/www/html" # Destination on your EC2 instance
 
       - name: SSH into EC2 and Restart Server
-        uses: appleboy/ssh-action@v0.5.1
+        uses: appleboy/ssh-action
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
