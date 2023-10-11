@@ -21,12 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-        working-directory: ./demo-app
+        working-directory: demo-app
 
       - name: Build Vue App
         run: |
           npm run build
-        working-directory: ./demo-app
+        working-directory: demo-app
 
       - name: Copy files to EC2
         uses: appleboy/scp-action@master
@@ -34,7 +34,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }} # Your EC2 instance's IP or DNS
           username: ${{ secrets.EC2_USERNAME }} # Your EC2 username
           key: ${{ secrets.EC2_SSH_KEY }} # The private key
-          source: "./demo-app/dist/*" # Path to your Vue app build files
+          source: "demo-app/dist/*" # Path to your Vue app build files
           target: "/var/www/html" # Destination on your EC2 instance
 
       - name: SSH into EC2 and Restart Server
