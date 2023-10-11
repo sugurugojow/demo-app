@@ -20,12 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd demo-app # Change to your Vue app directory
+          cd demp-app # Change to your Vue app directory
           npm install
 
       - name: Build Vue App
         run: |
-          cd demo-app # Change to your Vue app directory
+          cd demp-app # Change to your Vue app directory
           npm run build
 
       - name: Copy files to EC2
@@ -34,7 +34,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "demo-app/dist/*"
+          source: "demp-app/dist/*"
           target: "/var/www/html"
 
       - name: SSH into EC2 and Restart Server
@@ -45,4 +45,4 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /var/www/html
-            pm2 restart demo-app
+            pm2 restart demp-app
