@@ -1,0 +1,48 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: |
+          npm install
+        working-directory: ./demo-app
+
+      - name: Build Vue App
+        run: |
+          npm run build
+        working-directory: ./demo-app
+
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@v0.3.0
+        with:
+          host: ${{ secrets.EC2_HOST }} # Your EC2 instance's IP or DNS
+          username: ${{ secrets.EC2_USERNAME }} # Your EC2 username
+          key: ${{ secrets.EC2_SSH_KEY }} # The private key
+          source: "./demo-app/dist/*" # Path to your Vue app build files
+          target: "/var/www/html" # Destination on your EC2 instance
+
+      - name: SSH into EC2 and Restart Server
+        uses: appleboy/ssh-action@v0.5.1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /var/www/html
+            pm2 restart demo-app
