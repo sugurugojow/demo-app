@@ -11,39 +11,39 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14 # Specify the Node.js version your app requires
+          node-version: 14
 
       - name: Install dependencies
         run: |
-          pwd
-          cd demp-app # Change to your Vue app directory
+          cd demo-app # Change to your Vue app directory
           npm install
 
       - name: Build Vue App
         run: |
-          cd demp-app # Change to your Vue app directory
+          cd demo-app # Change to your Vue app directory
           npm run build
 
       - name: Copy files to EC2
-        uses: appleboy/scp-action@v0.1.4 # Use a specific version
+        uses: appleboy/scp-action@v1.0.0 # Use a specific version
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "demp-app/dist/*"
+          source: "demo-app/dist/*"
           target: "/var/www/html"
 
-      - name: SSH into EC2 and Restart Server
+      - name: SSH into EC2 and Update Repository
         uses: appleboy/ssh-action@v1.0.0 # Use a specific version
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /var/www/html
-            pm2 restart demp-app
+            cd /var/www/html/demo-app # Change to the repository directory
+            git pull origin main # Update the code from the main branch
+            pm2 restart demo-app # Restart the app if necessary
