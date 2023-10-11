@@ -13,34 +13,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: 14
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14 # Specify the Node.js version your app requires
 
       - name: Install dependencies
         run: |
-        ls
-          pwd
+          cd demo-app # Change to your Vue app directory
           npm install
-      #   working-directory: demo-app
 
       - name: Build Vue App
         run: |
+          cd demo-app # Change to your Vue app directory
           npm run build
-      #   working-directory: demo-app
 
       - name: Copy files to EC2
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v1.0.0 # Use a specific version
         with:
-          host: ${{ secrets.EC2_HOST }} # Your EC2 instance's IP or DNS
-          username: ${{ secrets.EC2_USERNAME }} # Your EC2 username
-          key: ${{ secrets.EC2_SSH_KEY }} # The private key
-          source: "demo-app/dist/*" # Path to your Vue app build files
-          target: "/var/www/html" # Destination on your EC2 instance
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "demo-app/dist/*"
+          target: "/var/www/html"
 
       - name: SSH into EC2 and Restart Server
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v1.0.0 # Use a specific version
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
