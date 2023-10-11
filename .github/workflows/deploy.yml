@@ -18,15 +18,15 @@ jobs:
       #   with:
       #     node-version: 14
 
-      - name: Install dependencies
-        run: |
-          npm install
-        working-directory: demo-app
+      # - name: Install dependencies
+      #   run: |
+      #     npm install
+      #   working-directory: demo-app
 
-      - name: Build Vue App
-        run: |
-          npm run build
-        working-directory: demo-app
+      # - name: Build Vue App
+      #   run: |
+      #     npm run build
+      #   working-directory: demo-app
 
       - name: Copy files to EC2
         uses: appleboy/scp-action@master
@@ -44,5 +44,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            npm install
+            npm run build
             cd /var/www/html
             pm2 restart demo-app
