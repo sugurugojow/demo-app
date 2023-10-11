@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        run: ls
+        pwd
 
       # - name: Setup Node.js
       #   uses: actions/setup-node@v2
@@ -36,7 +38,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }} # Your EC2 username
           key: ${{ secrets.EC2_SSH_KEY }} # The private key
           source: "demo-app/dist/*" # Path to your Vue app build files
-          # target: "/var/www/html" # Destination on your EC2 instance
+          target: "/var/www/html" # Destination on your EC2 instance
 
       - name: SSH into EC2 and Restart Server
         uses: appleboy/ssh-action@v1.0.0
