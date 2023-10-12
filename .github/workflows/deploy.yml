@@ -28,7 +28,9 @@ jobs:
         run: |
           # Set up the SSH key and permissions
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
-          chmod 600 ssh_key.pem
+          chmod 400 ssh_key.pem
+
+          ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
 
           # SSH into your EC2 instance
           ssh -i ssh_key.pem user@$EC2_HOST
