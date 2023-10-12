@@ -1,5 +1,5 @@
 <template>
-  <div class="about bg-blue-300">
+  <div class="about bg-yellow-50">
     <h1 class="text-black animate-bounce">Hello World</h1>
   </div>
 </template>
