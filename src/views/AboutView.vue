@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1 class="text-black animate-bounce">Hello World</h1>
+    <h1 class="text-white animate-bounce">Hello World</h1>
   </div>
 </template>
 
