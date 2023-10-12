@@ -1,7 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-    <span class="animate-pulse">HArsh</span>
+  <div class="about bg-blue-300">
+    <h1 class="text-black animate-bounce">Hello World</h1>
   </div>
 </template>
 
