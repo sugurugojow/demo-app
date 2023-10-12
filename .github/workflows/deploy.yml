@@ -21,17 +21,12 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Vue.js App
-        run: npm run build
-
       - name: Deploy to EC2
         run: |
           # Set up the SSH key and permissions
           echo "$SSH_PRIVATE_KEY" > ssh_key.pem
           chmod 400 ssh_key.pem
-
-          ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
-
+  
           # SSH into your EC2 instance
           ssh -i ssh_key.pem user@$EC2_HOST
 
@@ -40,6 +35,9 @@ jobs:
 
           # Pull the latest changes from your Git repository
           git pull
+
+          # Build Vue.js App
+          npm run build
 
           # Restart or start PM2 as needed
           # Check if the app is already running
