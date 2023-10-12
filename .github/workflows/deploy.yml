@@ -33,7 +33,9 @@ jobs:
 
             # Pull the latest changes from your Git repository
             git pull
-
+          
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             # Build Vue.js App
             npm run build
 
